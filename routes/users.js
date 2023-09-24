@@ -1,11 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const mongoose = require("mongoose");
-
-/* GET users listing. */
-const User = mongoose.model('users', new mongoose.Schema({
-  fullName: String
-}));
+const User = require('/Users/depengzhang/Documents/UQ/s2-2023/DECO3801/3801-backend/models/users.js');
 
 //http://localhost:3000/users/addUser
 router.post('/addUser', async (req, res) => {
@@ -18,6 +13,5 @@ router.post('/addUser', async (req, res) => {
       res.status(500).send({ status: 'error', message: 'Server Error' });
   }
 });
-
 
 module.exports = router;
