@@ -19,5 +19,33 @@ router.post('/createGroup', async (req, res) => {
   }
 });
 
+
+router.post('/addMemberToGroup', async (req, res) => {
+  const { groupId, userId } = req.body;
+  try {
+    // Find the group by groupId
+    const group = await Group.findById(groupId);
+    if (!group) return res.status(400).send({ message: 'Group not found' });
+
+    // Find the user by userId
+    const user = await User.findById(userId);
+    if (!user) return res.status(400).send({ message: 'User not found' });
+
+    // Check if the user is already a member of the group
+    if (group.members.includes(userId)) {
+      return res.status(400).send({ message: 'User is already a member of the group' });
+    }
+
+    // Add the user to the group's members array
+    group.members.push(userId);
+    await group.save();
+
+    res.status(200).send({ message: 'Member added to group successfully', group });
+  } catch (error) {
+    res.status(500).send({ message: 'Server Error' });
+  }
+});
+
+
 module.exports = router;
 
