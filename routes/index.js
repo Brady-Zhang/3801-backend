@@ -7,7 +7,7 @@ var router = express.Router();
 
 /* GET home page. */
 const MyModel = mongoose.model('tours', new mongoose.Schema({ name: String , price: Number, rate: Number}));
-router.get('/', async function (req, res, next) {
+router.get('/index', async function (req, res, next) {
   try {
     console.log('Querying database');
     const doc = await MyModel.findOne({price: 297});
