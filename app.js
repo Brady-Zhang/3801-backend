@@ -26,6 +26,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+
+const mongoose = require("mongoose");
+
+// 从环境变量或配置文件中获取数据库连接字符串
+const dbConnectionString = process.env.DB_CONNECTION_STRING || 'mongodb+srv://zhangdepeng:cGjEGYEnIkmNZmNO@cluster0.bq5yvel.mongodb.net/natours';
+
+// 连接数据库
+mongoose.connect(dbConnectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log('Database connected');
+})
+.catch(err => {
+  console.error('Database connection error:', err);
+});
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
