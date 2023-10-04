@@ -2,7 +2,10 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  fullName: String
+  fullName: {
+    type: String,
+    unique: true  // 这确保了全名的唯一性
+  }
 });
 
 const User = mongoose.model('users', UserSchema);
