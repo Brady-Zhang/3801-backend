@@ -6,7 +6,12 @@ const SECRET_KEY = "YOUR_SECRET_KEY";
 
 //http://localhost:3000/users/addUser
 router.post('/addUser', async (req, res) => {
-  const { fullName } = req.body;
+  const { avatar, fullName } = req.body;
+
+  if (!avatar) {
+    return res.status(400).send({ status: 'error', message: 'Avatar is required' });
+  }
+
   try {
     // 检查用户名是否已存在
     const existingUser = await User.findOne({ fullName });
@@ -14,26 +19,23 @@ router.post('/addUser', async (req, res) => {
       return res.status(400).send({ status: 'error', message: 'Name already exists' });
     }
 
-    // 创建一个新的用户
-    const user = new User({ fullName });
+    // creat a new user
+    const user = new User({ avatar, fullName});
     await user.save();
 
-    // 生成JWT
+    // creat a JWT
     const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: '1h' });
 
-    // 返回JWT和成功消息
+    // return the JWT
     res.status(200).send({
       status: 'success', 
       message: 'Name saved successfully', 
-      token: token // 返回JWT给客户端
+      token: token // return JWT to front-end
     });
   } catch (error) {
       res.status(500).send({ status: 'error', message: 'Server Error' });
   }
 });
-
-module.exports = router;
-
 
 module.exports = router;
 
