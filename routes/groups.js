@@ -32,22 +32,6 @@ router.post('/createGroup', authenticateJWT, async (req, res) => {
     }
 });
 
-module.exports = router;
-
-
-// router.post('/createGroup', async (req, res) => {
-//   const { name} = req.body;
-//   try {
-//     const user = await User.findById(userId);
-//     if (!user) return res.status(400).send({ message: 'User not found' });
-
-//     const group = new Group({ name, members: [user._id] });
-//     await group.save();
-//     res.status(200).send({ message: 'Group created successfully', group });
-//   } catch (error) {
-//     res.status(500).send({ message: 'Server Error' });
-//   }
-// });
 
 
 router.post('/addMemberToGroup', async (req, res) => {
