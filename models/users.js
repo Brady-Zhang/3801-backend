@@ -4,7 +4,11 @@ const mongoose = require("mongoose");
 const UserSchema = new mongoose.Schema({
   fullName: {
     type: String,
-    unique: true  // 这确保了全名的唯一性
+    unique: true
+  },
+  avatar: {
+    type: String,  // assuming the avatar is a URL or identifier
+    required: true // if you want to ensure every user has an avatar
   }
 });
 
