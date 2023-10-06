@@ -36,6 +36,29 @@ router.post('/addUser', async (req, res) => {
       res.status(500).send({ status: 'error', message: 'Server Error' });
   }
 });
+// http://localhost:3000/users/getAvatarByName
+router.get('/getAvatarByName', async (req, res) => {
+  const { fullName } = req.query; // 获取查询参数中的fullName
+
+  if (!fullName) {
+      return res.status(400).send({ status: 'error', message: 'Name is required' });
+  }
+
+  try {
+      const user = await User.findOne({ fullName });
+      if (!user) {
+          return res.status(404).send({ status: 'error', message: 'User not found' });
+      }
+
+      res.status(200).send({
+          status: 'success',
+          avatar: user.avatar // 返回头像URL或数据
+      });
+  } catch (error) {
+      res.status(500).send({ status: 'error', message: 'Server Error' });
+  }
+});
+
 
 module.exports = router;
 
