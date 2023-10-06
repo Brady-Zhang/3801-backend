@@ -34,7 +34,7 @@ router.post('/createGroup', authenticateJWT, async (req, res) => {
 
 
 //邀请别人加入
-router.post('/groups/join', authenticateJWT, async (req, res) => {
+router.post('/join', authenticateJWT, async (req, res) => {
   //发送到此路由的请求应该在其主体中包含一个groupId
   const { groupId } = req.body;
   const userId = req.user._id;
@@ -68,7 +68,7 @@ router.get('/getUserGroups', authenticateJWT, async (req, res) => {
 });
 
 //获取小组所有成员
-router.get('/getGroupMembers', async (req, res) => {
+router.get('/getGroupMembers', authenticateJWT,async (req, res) => {
   const { groupId } = req.query;
 
   try {
