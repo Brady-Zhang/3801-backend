@@ -66,4 +66,22 @@ router.get('/getUserGroups', authenticateJWT, async (req, res) => {
       res.status(500).send({ status: 'error', message: 'Server Error' });
   }
 });
+
+//获取小组所有成员
+router.get('/getGroupMembers', async (req, res) => {
+  const { groupId } = req.query;
+
+  try {
+      const group = await Group.findById(groupId).populate('members');
+      if (!group) {
+          return res.status(404).send({ status: 'error', message: 'Group not found' });
+      }
+
+      const membersWithAvatars = group.members.map(member => ({ fullName: member.fullName, avatar: member.avatar }));
+      res.status(200).send({ status: 'success', members: membersWithAvatars });
+  } catch (error) {
+      res.status(500).send({ status: 'error', message: 'Server Error' });
+  }
+});
+
 module.exports = router;
