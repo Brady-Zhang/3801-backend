@@ -33,7 +33,7 @@ router.post('/createGroup', authenticateJWT, async (req, res) => {
 });
 
 
-
+//邀请别人加入
 router.post('/groups/join', authenticateJWT, async (req, res) => {
   //发送到此路由的请求应该在其主体中包含一个groupId
   const { groupId } = req.body;
@@ -55,5 +55,15 @@ router.post('/groups/join', authenticateJWT, async (req, res) => {
     res.status(500).send({ message: 'Server Error' });
   }
 });
+//根据user获取小组列表（所有加入或创建的小组）
+router.get('/getUserGroups', authenticateJWT, async (req, res) => {
+  const userId = req.user._id;
 
+  try {
+      const groups = await Group.find({ members: userId });
+      res.status(200).send({ status: 'success', groups });
+  } catch (error) {
+      res.status(500).send({ status: 'error', message: 'Server Error' });
+  }
+});
 module.exports = router;
